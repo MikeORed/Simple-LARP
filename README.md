@@ -75,9 +75,9 @@ While I will provide a high-level overview of the paper's concepts, I encourage 
 
 ## 🛠️ **Planned Milestones**
 
-- **Phase 1: UX & BFF** – Initial development of the UI and interaction layer, focusing on basic integration with backend services.
-- **Phase 2: Domain Services** – Build out the core domain services, focusing on **LLM-powered agent memory, personality management, and decision-making**.
-- **Phase 3: CRUD Implementation** – Develop CRUD functionality for managing agents, memories, and personalities. This will be handled later in the project since test data can be easily generated using LLMs.
+- **Phase 1: Domain Services** – Build out the core domain services, focusing on **LLM-powered agent memory, personality management, and decision-making**.
+- **Phase 2: CRUD Implementation** – Develop CRUD functionality for managing agents, memories, and personalities. This will be handled later in the project since test data can be easily generated using LLMs.
+- **Phase 3: UX & BFF** – Initial development of the UI and interaction layer, focusing on basic integration with backend services.
 - **Phase 4: Testing and Refinement** – Integration testing with **Postman** and unit testing with **Jest** to validate the correctness of the domain services and backend logic.
 
 ---
