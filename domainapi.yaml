@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Agent Management Domain API
+  description: This API manages the decision-making, memory recall, and personality management for cognitive agents within the domain layer.
+  version: 1.0.0
+
+servers:
+  - url: https://api.agent-domain.example.com/v1
+    description: Production Server
+  - url: https://staging.api.agent-domain.example.com/v1
+    description: Staging Server
+
+tags:
+  - name: Agent
+    description: Domain operations for agents, including decision-making and personality adjustments.
+  - name: Memory
+    description: Domain operations related to memory recall and decay.
+  - name: Personality
+    description: Operations related to adjusting agent personality based on feedback.
+
+paths:
+  /agents/{agentId}/decisions:
+    post:
+      tags:
+        - Agent
+      summary: Generate a decision for an agent
+      description: Generates a decision based on an agent's current context, memories, and personality.
+      operationId: generateDecision
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique ID of the agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionRequest"
+      responses:
+        200:
+          description: Decision generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionResponse"
+        400:
+          description: Invalid input provided
+        500:
+          description: Server error
+
+  /agents/{agentId}/memories/recall:
+    post:
+      tags:
+        - Memory
+      summary: Recall relevant memories for an agent
+      description: Retrieves memories based on a query or the agent's current context.
+      operationId: recallMemory
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique ID of the agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemoryRecallRequest"
+      responses:
+        200:
+          description: Memory recall successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryRecallResponse"
+        400:
+          description: Invalid input provided
+        404:
+          description: Memory not found
+        500:
+          description: Server error
+
+  /agents/{agentId}/personality/adjust:
+    post:
+      tags:
+        - Personality
+      summary: Adjust an agent's personality based on feedback
+      description: Adjusts the agent's personality traits dynamically based on external feedback.
+      operationId: adjustPersonality
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique ID of the agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonalityAdjustmentRequest"
+      responses:
+        200:
+          description: Personality adjusted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonalityAdjustmentResponse"
+        400:
+          description: Invalid feedback provided
+        500:
+          description: Server error
+
+components:
+  schemas:
+    # Request for generating a decision
+    DecisionRequest:
+      type: object
+      properties:
+        context:
+          type: string
+          description: Current context or situation the agent is in
+        memorySnapshot:
+          type: array
+          items:
+            $ref: "#/components/schemas/MemoryDTO"
+        personality:
+          $ref: "#/components/schemas/PersonalityDTO"
+      required:
+        - context
+        - memorySnapshot
+        - personality
+
+    # Response for the generated decision
+    DecisionResponse:
+      type: object
+      properties:
+        decision:
+          type: string
+          description: The decision the agent made
+        confidence:
+          type: number
+          description: The confidence level in the decision (0-1)
+
+    # Request for memory recall
+    MemoryRecallRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: Query or context for memory recall
+
+    # Response for memory recall
+    MemoryRecallResponse:
+      type: object
+      properties:
+        memories:
+          type: array
+          items:
+            $ref: "#/components/schemas/MemoryDTO"
+
+    # Request for adjusting personality
+    PersonalityAdjustmentRequest:
+      type: object
+      properties:
+        feedback:
+          type: string
+          description: Feedback or experience that should adjust the agent's personality
+
+    # Response for personality adjustment
+    PersonalityAdjustmentResponse:
+      type: object
+      properties:
+        updatedPersonality:
+          $ref: "#/components/schemas/PersonalityDTO"
+
+    # Memory DTO (used in requests and responses)
+    MemoryDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the memory
+        content:
+          type: string
+          description: Memory content
+        relevanceScore:
+          type: number
+          description: The calculated relevance of the memory
+        decayFactor:
+          type: number
+          description: The decay factor influencing how quickly the memory fades
+
+    # Personality DTO (used in requests and responses)
+    PersonalityDTO:
+      type: object
+      properties:
+        traits:
+          type: array
+          items:
+            type: string
+          description: A list of personality traits
+        adaptability:
+          type: number
+          description: How adaptable the agent is based on new experiences (0-1)

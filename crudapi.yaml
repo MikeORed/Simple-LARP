@@ -1,0 +1,435 @@
+openapi: 3.0.3
+info:
+  title: Agent Management Infrastructure API
+  description: This API allows full CRUD operations for managing agents, memories, personalities, and physical attributes in the infrastructure layer of the agent management system.
+  version: 1.1.0
+
+servers:
+  - url: https://api.agent-management.example.com/v1
+    description: Production Server
+  - url: https://staging.api.agent-management.example.com/v1
+    description: Staging Server
+
+tags:
+  - name: Agent
+    description: CRUD operations for managing agents.
+  - name: Memory
+    description: CRUD operations for managing memories of agents.
+  - name: Personality
+    description: CRUD operations for managing personalities of agents.
+
+paths:
+  /agents:
+    post:
+      tags:
+        - Agent
+      summary: Create a new agent
+      description: Creates a new agent with descriptive properties.
+      operationId: createAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentCreateRequest'
+      responses:
+        201:
+          description: Agent successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentDTO'
+
+    get:
+      tags:
+        - Agent
+      summary: Get a list of all agents
+      description: Retrieves a list of all agents in the system.
+      operationId: getAllAgents
+      responses:
+        200:
+          description: A list of agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentDTO'
+
+  /agents/{agentId}:
+    get:
+      tags:
+        - Agent
+      summary: Get an agent by ID
+      description: Retrieves details of a specific agent by its ID.
+      operationId: getAgentById
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Agent successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentDTO'
+        404:
+          description: Agent not found
+
+    put:
+      tags:
+        - Agent
+      summary: Update an agent
+      description: Updates the details of a specific agent.
+      operationId: updateAgent
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdateRequest'
+      responses:
+        200:
+          description: Agent successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentDTO'
+
+    delete:
+      tags:
+        - Agent
+      summary: Delete an agent by ID
+      description: Deletes an agent from the system.
+      operationId: deleteAgent
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Agent successfully deleted
+
+  /agents/{agentId}/memories:
+    post:
+      tags:
+        - Memory
+      summary: Add a memory to an agent
+      description: Adds a new memory to a specific agent.
+      operationId: addMemoryToAgent
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryCreateRequest'
+      responses:
+        201:
+          description: Memory successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryDTO'
+
+    get:
+      tags:
+        - Memory
+      summary: Get all memories of an agent
+      description: Retrieves all memories associated with a specific agent.
+      operationId: getAllAgentMemories
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of memories for the agent
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemoryDTO'
+
+  /agents/{agentId}/memories/{memoryId}:
+    get:
+      tags:
+        - Memory
+      summary: Get a specific memory of an agent
+      description: Retrieves a specific memory of an agent by memory ID.
+      operationId: getAgentMemoryById
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: memoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Memory successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryDTO'
+
+    put:
+      tags:
+        - Memory
+      summary: Update a memory of an agent
+      description: Updates the content or metadata of a specific memory for an agent.
+      operationId: updateAgentMemory
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: memoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryUpdateRequest'
+      responses:
+        200:
+          description: Memory successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryDTO'
+
+    delete:
+      tags:
+        - Memory
+      summary: Delete a memory of an agent
+      description: Deletes a specific memory of an agent.
+      operationId: deleteAgentMemory
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: memoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Memory successfully deleted
+
+  /agents/{agentId}/personality:
+    put:
+      tags:
+        - Personality
+      summary: Update an agent's personality
+      description: Updates or adds personality traits for a specific agent.
+      operationId: updateAgentPersonality
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonalityUpdateRequest'
+      responses:
+        200:
+          description: Personality successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalityDTO'
+
+components:
+  schemas:
+    # Agent creation request
+    AgentCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The agent's name
+        description:
+          type: string
+          description: A brief description of the agent
+        species:
+          type: string
+          description: The species of the agent, if applicable
+        size:
+          type: string
+          description: The agent's size (small, medium, large)
+        physicalAttributes:
+          $ref: '#/components/schemas/PhysicalAttributes'
+        emotionalState:
+          type: string
+          description: The initial emotional state of the agent (e.g., calm, angry)
+        physicalState:
+          $ref: '#/components/schemas/PhysicalState'
+        personality:
+          $ref: '#/components/schemas/PersonalityDTO'
+
+    # Agent update request
+    AgentUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        emotionalState:
+          type: string
+        physicalState:
+          $ref: '#/components/schemas/PhysicalState'
+        personality:
+          $ref: '#/components/schemas/PersonalityDTO'
+
+    # Agent DTO (response)
+    AgentDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the agent
+        name:
+          type: string
+          description: Name of the agent
+        species:
+          type: string
+          description: Species of the agent
+        size:
+          type: string
+          description: Size of the agent (small, medium, large)
+        description:
+          type: string
+          description: Brief description of the agent
+        emotionalState:
+          type: string
+          description: The agent's current emotional state
+        physicalState:
+          $ref: '#/components/schemas/PhysicalState'
+        personality:
+          $ref: '#/components/schemas/PersonalityDTO'
+
+    # Memory creation request
+    MemoryCreateRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the memory
+        memoryType:
+          type: string
+          description: Type of memory (episodic, semantic)
+
+    # Memory update request
+    MemoryUpdateRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        memoryType:
+          type: string
+
+    # Memory DTO
+    MemoryDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the memory
+        content:
+          type: string
+          description: The content of the memory
+        memoryType:
+          type: string
+          description: Type of memory (episodic, semantic)
+        relevanceScore:
+          type: number
+          description: Relevance score of the memory
+        decayFactor:
+          type: number
+          description: The decay factor for the memory
+        createdAt:
+          type: string
+          format: date-time
+          description: When the memory was created
+
+    # Personality update request
+    PersonalityUpdateRequest:
+      type: object
+      properties:
+        trait:
+          type: string
+          description: Personality trait to be updated
+        adaptability:
+          type: number
+          description: The adaptability of the agent
+
+    # Personality DTO
+    PersonalityDTO:
+      type: object
+      properties:
+        trait:
+          type: string
+        adaptability:
+          type: number
+
+    # PhysicalState Schema
+    PhysicalState:
+      type: object
+      properties:
+        health:
+          type: number
+          description: The agent's health level (e.g., 100 for full health)
+        stamina:
+          type: number
+          description: The agent's stamina or energy level
+
+    # PhysicalAttributes Schema
+    PhysicalAttributes:
+      type: object
+      properties:
+        height:
+          type: string
+          description: The agent's height
+        weight:
+          type: string
+          description: The agent's weight
+        appearance:
+          type: string
+          description: Additional descriptive appearance details
