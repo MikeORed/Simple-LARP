@@ -12,8 +12,8 @@ The goal is to use AI to simulate complex character behaviors, personalities, an
 
 - **Education through Experimentation**: The project will serve as a learning tool for exploring how Generative AI models can be integrated into narrative-driven environments.
 - **Separation of Concerns**: The project will maintain a strict separation between the **UX (frontend)** and **domain services** layers via a **Backend for Frontend (BFF)** pattern. This approach ensures that the front-end and back-end can evolve independently, promoting scalability and transferability of lessons to other projects.
-- **Exploring Pre-Trained LLMs**: Both **AWS Bedrock** and **OpenAI’s models** will be leveraged depending on context. The exact mapping of models will evolve as the project matures.
-- **Scalable Architecture**: The game will be developed with **modularity** in mind, allowing for the easy extension of features and AI models as new capabilities are explored.
+- **Exploring functionality within AWS Bedrock**: From Claude to Titan, using the Converse api and gagents, I intend to explore the boundaries within the Bedrock space, within budgetary boundaries of course.
+- **Scalable Architecture**: The project will be developed with **modularity** in mind, allowing for the easy extension of features and AI models as new capabilities are explored.
 
 ---
 
@@ -23,8 +23,7 @@ The goal is to use AI to simulate complex character behaviors, personalities, an
 - **Backend Services**: Stateless backend services and domain-driven logic will be powered by AWS **Lambda**, **API Gateway**, and **DynamoDB**.
 - **Frontend**: A **React** UI will interact with the backend via a **BFF** (Backend for Frontend) pattern.
 - **Generative AI Models**:
-  - **AWS Bedrock** for tasks such as **semantic analysis** and **context embeddings**.
-  - **OpenAI** for tasks like **personality-driven dialogues** and **interaction modeling**.
+  - **AWS Bedrock** for tasks such as **semantic analysis**, **chat interface**, and **context embeddings**
 
 ---
 
