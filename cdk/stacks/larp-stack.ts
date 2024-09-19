@@ -41,7 +41,7 @@ export class StatelessStack extends cdk.Stack {
         runtime: lambda.Runtime.NODEJS_18_X,
         entry: path.join(
           __dirname,
-          "../../src/adapters/primary/converse-api-example/converse-api-example.ts"
+          "../../src/adapters/primary/api-data-population-chat-adapter/api-data-population-chat-adapter.ts"
         ),
         memorySize: 1024,
         tracing: Tracing.ACTIVE,
@@ -61,6 +61,7 @@ export class StatelessStack extends cdk.Stack {
         resources: [
           "arn:aws:bedrock:*::foundation-model/anthropic.claude-v2",
           "arn:aws:bedrock:*::foundation-model/anthropic.claude-v2:1",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-3-haiku-20240307-v1:0",
         ],
       })
     );
