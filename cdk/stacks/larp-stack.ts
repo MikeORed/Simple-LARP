@@ -50,7 +50,7 @@ export class StatelessStack extends cdk.Stack {
           minify: true,
         },
         environment: {},
-        timeout: cdk.Duration.seconds(10),
+        timeout: cdk.Duration.seconds(30),
       });
     converseApiExampleLambda.addToRolePolicy(
       new iam.PolicyStatement({

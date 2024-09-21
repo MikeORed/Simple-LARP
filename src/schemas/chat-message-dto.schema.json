@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "_id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "A UUIDv4 identifier for the message."
+      },
+      "_created": {
+        "type": "string",
+        "format": "date-time",
+        "description": "The timestamp when the message was created."
+      },
+      "_updated": {
+        "type": "string",
+        "format": "date-time",
+        "description": "The timestamp when the message was last updated."
+      },
+      "userID": {
+        "type": "string",
+        "format": "uuid",
+        "description": "The UUIDv4 identifier of the user who sent the message."
+      },
+      "chatID": {
+        "type": "string",
+        "format": "uuid",
+        "description": "The UUIDv4 identifier of the associated chat.",
+        "minLength": 1
+      },
+      "role": {
+        "type": "string",
+        "description": "The role of the message sender (e.g., 'user', 'assistant').",
+        "minLength": 1
+      },
+      "message": {
+        "type": "string",
+        "description": "The message content.",
+        "minLength": 1
+      },
+      "fileKeys": {
+        "type": "array",
+        "description": "Array of S3 file keys, can be empty.",
+        "items": {
+          "type": "string"
+        },
+        "default": []
+      },
+      "toolInput": {
+        "type": "object",
+        "description": "Optional, tool input schema, no fixed structure.",
+        "additionalProperties": true
+      },
+      "toolResult": {
+        "type": "object",
+        "description": "Optional, tool result schema, no fixed structure.",
+        "additionalProperties": true
+      }
+    },
+    "required": ["_id", "_created", "_updated", "userID", "chatID", "role", "message", "fileKeys"]
+  }
+  

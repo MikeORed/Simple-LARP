@@ -1,0 +1,54 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "_id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "A UUIDv4 identifier for the chat."
+      },
+      "_created": {
+        "type": "string",
+        "format": "date-time",
+        "description": "The timestamp when the chat was created."
+      },
+      "_updated": {
+        "type": "string",
+        "format": "date-time",
+        "description": "The timestamp when the chat was last updated."
+      },
+      "userID": {
+        "type": "string",
+        "format": "uuid",
+        "description": "The UUIDv4 identifier of the user who owns the chat."
+      },
+      "modelID": {
+        "type": "string",
+        "format": "uuid",
+        "description": "The UUIDv4 identifier of the model used in the chat. Optional."
+      },
+      "name": {
+        "type": "string",
+        "description": "The name of the chat. Optional."
+      },
+      "systemContexts": {
+        "type": "array",
+        "description": "System contexts relevant to the chat.",
+        "items": {
+          "type": "string"
+        },
+        "default": []
+      },
+      "tools": {
+        "type": "array",
+        "description": "Tools available for the chat, represented by UUIDv4s.",
+        "items": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "default": []
+      }
+    },
+    "required": ["_id", "_created", "_updated", "userID", "systemContexts", "tools"]
+  }
+  
