@@ -1,4 +1,4 @@
-import * as convict from "convict";
+var convict = require("convict");
 
 export const config = convict({
   agentTableName: {
@@ -18,5 +18,11 @@ export const config = convict({
     format: String,
     default: "",
     env: "STAGE",
+  },
+  tableName: {
+    doc: "The database table for things",
+    format: String,
+    default: "",
+    env: "TABLE_NAME",
   },
 }).validate({ allowed: "strict" });

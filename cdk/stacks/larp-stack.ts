@@ -6,6 +6,7 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import path = require("path");
 import { Tracing } from "aws-cdk-lib/aws-lambda";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as dynamoDb from "aws-cdk-lib/aws-dynamodb";
 
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -31,6 +32,13 @@ export class StatelessStack extends cdk.Stack {
     super(scope, id, props);
     const suffix = getCdkSuffix(config.get("environment"), config.get("stage"));
 
+    const tableOne = new dynamoDb.Table(this, "TableOne", {
+      partitionKey: { name: "PK", type: dynamoDb.AttributeType.STRING },
+      sortKey: { name: "SK", type: dynamoDb.AttributeType.STRING },
+      tableName: `TableOne${suffix}`,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
     const bedrockPolicy = {
       actions: ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"],
       resources: ["*"],
@@ -49,9 +57,13 @@ export class StatelessStack extends cdk.Stack {
         bundling: {
           minify: true,
         },
-        environment: {},
+        environment: {
+          TABLE_NAME: tableOne.tableName,
+        },
         timeout: cdk.Duration.seconds(30),
       });
+
+    tableOne.grantReadWriteData(converseApiExampleLambda);
     converseApiExampleLambda.addToRolePolicy(
       new iam.PolicyStatement({
         actions: [

@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.651.1",
+    "@aws-sdk/client-dynamodb": "^3.656.0",
+    "@aws-sdk/lib-dynamodb": "^3.656.0",
     "@types/convict": "^6.1.6",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
