@@ -169,6 +169,6 @@ export class Session extends Entity<SessionProps> {
     interaction: Interaction,
     executeTools: boolean
   ): boolean {
-    return interaction.toolUse !== undefined && executeTools;
+    return interaction.toolUseRequest !== undefined && executeTools;
   }
 }

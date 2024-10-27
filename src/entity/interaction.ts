@@ -1,13 +1,15 @@
 import { Schema } from "ajv";
 import { Entity } from "./base/entity";
-import { ToolUseBlock } from "@aws-sdk/client-bedrock-runtime";
+import { ToolUseRequest } from "./tool-use-request";
+import { ToolUseResponse } from "./tool-use-response";
 
 export interface InteractionProps {
   sessionId: string;
   agentId: string;
   content: string;
   type: "agent" | "user" | "system" | "tool";
-  toolUse?: ToolUseBlock; // Added property
+  toolUseRequest?: ToolUseRequest;
+  toolUseResponse?: ToolUseResponse;
 }
 
 export class Interaction extends Entity<InteractionProps> {
@@ -38,8 +40,12 @@ export class Interaction extends Entity<InteractionProps> {
     return this.props.type;
   }
 
-  get toolUse(): ToolUseBlock | undefined {
-    return this.props.toolUse;
+  get toolUseRequest(): ToolUseRequest | undefined {
+    return this.props.toolUseRequest;
+  }
+
+  get toolUseResponse(): ToolUseResponse | undefined {
+    return this.props.toolUseResponse;
   }
 
   // Setters

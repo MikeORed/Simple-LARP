@@ -58,7 +58,7 @@ export class Agent extends Entity<AgentProps> {
       agentId: this.id,
       content: completion.content,
       type: "agent",
-      toolUse: completion.toolUse, // Assuming completion includes tool usage
+      toolUseRequest: completion.toolUse, // Assuming completion includes tool usage
     };
     return new Interaction(interactionProps);
   }
@@ -78,7 +78,7 @@ export class Agent extends Entity<AgentProps> {
   }> {
     const { session, interaction, contextVariables, debug } = params;
 
-    const toolCall = interaction.toolUse;
+    const toolCall = interaction.toolUseRequest;
     const functionName = toolCall?.name ?? "NoTool";
     const args = toolCall?.input ?? {};
     const functionMap = new Map(this.tools.map((tool) => [tool.name, tool]));
