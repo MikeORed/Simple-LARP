@@ -1,5 +1,5 @@
 import { Schema } from "ajv";
-import { validate } from "../shared";
+import { validate } from "../../shared";
 interface ValueObjectProps {
   [index: string]: any;
 }

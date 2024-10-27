@@ -1,7 +1,7 @@
 import { DomainEvent, ICreateDomainEvent } from "./domain-event";
 import { Schema } from "ajv";
 import { v4 as uuid } from "uuid";
-import { validate } from "../shared";
+import { validate } from "../../shared";
 
 export abstract class Entity<T> {
   private readonly _id: string;
@@ -24,8 +24,6 @@ export abstract class Entity<T> {
   }
 
   public addDomainEvent(eventDetails: ICreateDomainEvent): void {
-    // if we supply an event schema then validate before pushing the domain event
-    // https://leejamesgilmore.medium.com/amazon-eventbridge-schema-validation-5b6c2c5ce3b3
     if (eventDetails.eventSchema) {
       validate(eventDetails.eventSchema, eventDetails.event);
     }
